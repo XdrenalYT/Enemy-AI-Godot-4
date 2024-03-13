@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://2pqlv63ykvqr"]
+
+[ext_resource type="Script" path="res://Entities/Enemies/Components/enemy_manager.gd" id="1_0hs16"]
+
+[node name="EnemyManager" type="Node"]
+script = ExtResource("1_0hs16")
+
+[node name="AttackSpeedTimer" type="Timer" parent="."]

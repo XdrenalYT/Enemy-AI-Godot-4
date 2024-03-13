@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://cy2bgedf5gqi2"]
+
+[ext_resource type="PackedScene" uid="uid://dyyw7fpwcmkxi" path="res://Entities/Enemies/Components/navigation_agent_3d.tscn" id="1_0mbj8"]
+[ext_resource type="Script" path="res://Entities/Enemies/Enemies/TestEnemy.gd" id="1_aera8"]
+[ext_resource type="PackedScene" uid="uid://2pqlv63ykvqr" path="res://Entities/Enemies/Components/enemy_manager.tscn" id="2_vh0k1"]
+[ext_resource type="PackedScene" uid="uid://btmf0bh5fn31w" path="res://Entities/Enemies/Components/hurt_box.tscn" id="4_luic8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_28y42"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(0.847059, 0.113725, 0.137255, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_b3p6p"]
+material = SubResource("StandardMaterial3D_28y42")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kfbo8"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_efnfb"]
+radius = 2.0
+
+[node name="TestEnemy" type="CharacterBody3D" groups=["Enemy"]]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_aera8")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_b3p6p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_kfbo8")
+
+[node name="NavigationAgent3D" parent="." node_paths=PackedStringArray("main", "manager_", "hurtBoxCollisionShape") instance=ExtResource("1_0mbj8")]
+target_desired_distance = 2.0
+main = NodePath("..")
+manager_ = NodePath("../EnemyManager")
+hurtBoxCollisionShape = NodePath("../HurtBox/CollisionShape3D")
+
+[node name="EnemyManager" parent="." node_paths=PackedStringArray("navAgent_", "main", "hurtbox") instance=ExtResource("2_vh0k1")]
+navAgent_ = NodePath("../NavigationAgent3D")
+main = NodePath("..")
+hurtbox = NodePath("../HurtBox")
+speed = 10.0
+health = 20.0
+damage = 5.0
+attack_speed = 2.0
+xp_dropped = 15.0
+basic_attack = true
+
+[node name="HurtBox" parent="." node_paths=PackedStringArray("manager_") instance=ExtResource("4_luic8")]
+manager_ = NodePath("../EnemyManager")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
+shape = SubResource("SphereShape3D_efnfb")

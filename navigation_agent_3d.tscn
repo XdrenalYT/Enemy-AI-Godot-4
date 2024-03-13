@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dyyw7fpwcmkxi"]
+
+[ext_resource type="Script" path="res://Entities/Enemies/Components/navigation_agent_3d.gd" id="1_y4qfo"]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D"]
+path_desired_distance = 2.0
+target_desired_distance = 5.0
+avoidance_enabled = true
+debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(0.866667, 0.0313726, 0, 1)
+script = ExtResource("1_y4qfo")
+
+[connection signal="velocity_computed" from="." to="." method="_on_velocity_computed"]
